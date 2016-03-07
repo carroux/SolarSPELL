@@ -50,6 +50,13 @@ $root_dir       = dirname($_SERVER['PHP_SELF']);
 $absolute_path  = str_replace(str_replace("%2F", "/", rawurlencode($this_folder)), '', $_SERVER['REQUEST_URI']);
 $dir_name       = explode("/", $this_folder);
 
+// Get protocol
+// if ($_SERVER['HTTPS']) {
+//     $protocol = "https://";
+// } else {
+//     $protocol = "http://";
+// }
+
 if(substr($navigation_dir, -1) != "/"){
     if(file_exists($navigation_dir)){
 
@@ -121,6 +128,7 @@ switch ($options['bootstrap']['icons']) {
         // TODO: move to theme
         $icons['prefix'] = "fa fa-fw";
         $icons['home']   = "<i class=\"".$icons['prefix']." ".$icons['home']." fa-lg\"></i> ";
+        // $icons['search'] = "          <i class=\"".$icons['prefix']." ".$icons['search']." form-control-feedback\"></i>" . PHP_EOL;
         $icons['folder'] = $icons['prefix'].' '. $icons['folder'].' ' . $options['bootstrap']['fontawesome_style'];
         if ($options['general']['share_icons'] == true) { 
             $icons_dropbox  = "<i class=\"".$icons['prefix']." fa-dropbox\"></i> ";
@@ -158,7 +166,7 @@ if ($options['general']['text_direction'] == 'rtl') {
     $direction     = " dir=\"ltr\"";
     $right         = "right";
     $left          = "left";
-    $search_offset = " col-sm-offset-7 col-md-offset-8";
+    $search_offset = " col-xs-offset-6 col-sm-offset-8 col-md-offset-9";
 }
 
 $bootstrap_cdn = set_bootstrap_theme();
@@ -185,7 +193,7 @@ if (isset($options['bootstrap']['modal_size'])) {
 if (isset($options['bootstrap']['button_default'])) {
     $btn_default = $options['bootstrap']['button_default'];
 } else {
-    $btn_default = 'btn-secondary';
+    $btn_default = 'btn-default';
 }
 
 if (isset($options['bootstrap']['button_primary'])) {
@@ -219,7 +227,7 @@ if ($options['bootstrap']['responsive_table']) {
 }
 
 // Count optional columns
-$table_count = 1;
+$table_count = 0;
 foreach($table_options as $value)
 {
   if($value === true)
@@ -397,9 +405,9 @@ if ($options['general']['enable_search'] == true) {
         $input_size = null;
     }
 
-    $search .= "      <div class=\"col-xs-12 col-sm-5 col-md-4$search_offset\">" . PHP_EOL;
+    $search .= "      <div class=\"col-xs-6 col-sm-4 col-md-3$search_offset\">" . PHP_EOL;
     $search .= "          <div class=\"form-group\">" . PHP_EOL;
-    $search .= "            <label class=\"form-control-label sr-only\" for=\"listr-search\">". _('Search')."</label>" . PHP_EOL;
+    $search .= "            <label class=\"control-label sr-only\" for=\"search\">". _('Search')."</label>" . PHP_EOL;
     $search .= "            <input type=\"text\" id=\"listr-search\" class=\"form-control$input_size\" placeholder=\"". _('Search')."\"$autofocus>" . PHP_EOL;
     // $search .= $icons['search'];
     $search .= "         </div>" . PHP_EOL; // form-group
@@ -454,7 +462,7 @@ if(($folder_list) || ($file_list) ) {
 
             $table_body .= "            <td";
             if ($options['general']['enable_sort']) {
-                $table_body .= " class=\"text-xs-$left\" data-sort-value=\"dir-". htmlentities($item['lbname'], ENT_QUOTES, 'utf-8') . "\"" ;
+                $table_body .= " class=\"text-xs-$left\" data-sort-value=\"dir-". htmlentities(utf8_encode($item['lbname']), ENT_QUOTES, 'utf-8') . "\"" ;
             }
             $table_body .= ">";
             if ($options['bootstrap']['icons'] !== null ) {
@@ -570,7 +578,7 @@ if(($folder_list) || ($file_list) ) {
 
             // Concatenate tr-classes
             if (!empty($row_classes)) {
-                $row_attr = ' class="'.implode(" ", $row_classes).'"';
+                $row_attr = ' class="'.implode(" ", $row_classes).'"'.$hidden;
             } else {
                 $row_attr = null;
             }
@@ -583,7 +591,7 @@ if(($folder_list) || ($file_list) ) {
             
             $table_body .= "            <td";
             if ($options['general']['enable_sort']) {
-                $table_body .= " class=\"text-xs-$left\" data-sort-value=\"file-". htmlentities($item['lbname'], ENT_QUOTES, 'utf-8') . "\"" ;
+                $table_body .= " class=\"text-xs-$left\" data-sort-value=\"file-". htmlentities(utf8_encode($item['lbname']), ENT_QUOTES, 'utf-8') . "\"" ;
             }
             $table_body .= ">";
             if ($options['bootstrap']['icons'] !== null ) {
@@ -659,13 +667,14 @@ if(($folder_list) || ($file_list) ) {
                         }
 
                         // Truncate length
-                        if( (is_integer($options["general"]["truncate_checksums"])) && ($options["general"]["truncate_checksums"] > 0) ){
-                            $truncate = $options["general"]["truncate_checksums"];
-                            $checksum = substr($item[$chksum_ext], 0, $truncate);
+                        if( (is_integer($options["truncate_checksums"])) && ($options["truncate_checksums"] > 0) ){
+                            $truncate = $options["truncate_checksums"];
                         } else {
-                            $checksum = $item[$chksum_ext];
+                            $truncate = 8;
                         }
-                        $table_body .= "<br>$fake_indent$label <a href=\"" . htmlentities(rawurlencode($item['bname'] . "." . $chksum_ext), ENT_QUOTES, 'utf-8') . "\" class=\"text-muted\" title=\"".$item[$chksum_ext]."\">$checksum</a>" . PHP_EOL;
+                        $table_body .= "<br>$fake_indent$label <a href=\"" . htmlentities(rawurlencode($item['bname'] . "." . $chksum_ext), ENT_QUOTES, 'utf-8') . "\" class=\"text-muted\" title=\"".$item[$chksum_ext]."\">"
+                            // Print checksun string
+                            .substr($item[$chksum_ext], 0, $truncate) . "</a>" . PHP_EOL;
                     }
                 }
             }
