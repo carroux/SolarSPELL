@@ -8,7 +8,7 @@
     "enable_sort": true,
     "enable_viewer": true,
     "enable_search": true,
-    "enable_highlight": true,
+    "enable_highlight": false,
     "auto_highlight": true,
     "autofocus_search": false,
     "share_button": false,
@@ -21,7 +21,7 @@
     "read_chunks": false,
     "enable_checksums": false,
     "truncate_checksums": 8,
-    "give_kudos": true
+    "give_kudos": false
   },
   "assets": {
     "jquery_js": "assets/js/jquery.min.js",
