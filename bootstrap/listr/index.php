@@ -57,12 +57,100 @@ $dir_name       = explode("/", $this_folder);
 //     $protocol = "http://";
 // }
 
+function rangeDownload($navigation_dir) {
+   $fp = @fopen($navigation_dir, 'rb');
+   $size   = filesize($navigation_dir); // File size
+   $length = $size;           // Content length
+   $start  = 0;               // Start byte
+   $end    = $size - 1;       // End byte
+   // Now that we've gotten so far without errors we send the accept range header
+   /* At the moment we only support single ranges.
+   * Multiple ranges requires some more work to ensure it works correctly
+   * and comply with the spesifications: http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
+   *
+   * Multirange support annouces itself with:
+   * header('Accept-Ranges: bytes');
+   *
+   * Multirange content must be sent with multipart/byteranges mediatype,
+   * (mediatype = mimetype)
+   * as well as a boundry header to indicate the various chunks of data.
+   */
+   header("Accept-Ranges: 0-$length");
+   // header('Accept-Ranges: bytes');
+   // multipart/byteranges
+   // http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
+   if (isset($_SERVER['HTTP_RANGE'])) {
+      $c_start = $start;
+      $c_end   = $end;
+      // Extract the range string
+      list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
+      // Make sure the client hasn't sent us a multibyte range
+      if (strpos($range, ',') !== false) {
+         // (?) Shoud this be issued here, or should the first
+         // range be used? Or should the header be ignored and
+         // we output the whole content?
+         header('HTTP/1.1 416 Requested Range Not Satisfiable');
+         header("Content-Range: bytes $start-$end/$size");
+         // (?) Echo some info to the client?
+         exit;
+      }
+      // If the range starts with an '-' we start from the beginning
+      // If not, we forward the file pointer
+      // And make sure to get the end byte if spesified
+      if ($range == '-') {
+         // The n-number of the last bytes is requested
+         $c_start = $size - substr($range, 1);
+      }
+      else {
+         $range  = explode('-', $range);
+         $c_start = $range[0];
+         $c_end   = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
+      }
+      /* Check the range and make sure it's treated according to the specs.
+      * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+      */
+      // End bytes can not be larger than $end.
+      $c_end = ($c_end > $end) ? $end : $c_end;
+      // Validate the requested range and return an error if it's not correct.
+      if ($c_start > $c_end || $c_start > $size - 1 || $c_end >= $size) {
+         header('HTTP/1.1 416 Requested Range Not Satisfiable');
+         header("Content-Range: bytes $start-$end/$size");
+         // (?) Echo some info to the client?
+         exit;
+      }
+      $start  = $c_start;
+      $end    = $c_end;
+      $length = $end - $start + 1; // Calculate new content length
+      fseek($fp, $start);
+      header('HTTP/1.1 206 Partial Content');
+      header("foobar: okay");
+   }
+   // Notify the client the byte range we'll be outputting
+   header("Content-Range: bytes $start-$end/$size");
+   header("Content-Length: $length");
+
+   // Start buffered download
+   $buffer = 1024 * 8;
+   while(!feof($fp) && ($p = ftell($fp)) <= $end) {
+      if ($p + $buffer > $end) {
+         // In case we're only outputting a chunk, make sure we don't
+         // read past the length
+         $buffer = $end - $p + 1;
+      }
+      set_time_limit(0); // Reset time limit for big files
+      echo fread($fp, $buffer);
+      flush(); // Free up memory. Otherwise large files will trigger PHP's memory limit.
+   }
+
+   fclose($fp);
+}
+
 if(substr($navigation_dir, -1) != "/"){
     if(file_exists($navigation_dir)){
 
-        // GET MIME 
+        // GET MIME
         $mime_file = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $navigation_dir);
-        
+
         // Direct download
         if($mime_file == "inode/x-empty" || $mime_file == ""){
             header('Content-Description: File Transfer');
@@ -80,10 +168,20 @@ if(substr($navigation_dir, -1) != "/"){
         header('Content-Length: ' . filesize($navigation_dir));
         ob_clean();
         flush();
-        if ($options['general']['read_chunks'] == true) { 
-            readfile_chunked($navigation_dir);
+        if ($options['general']['read_chunks'] == true) {
+            // readfile_chunked($navigation_dir);
+            if (is_file($navigation_dir)) {
+               // header("Content-type: $mime_type");
+               if (isset($_SERVER['HTTP_RANGE']))  { // do it for any device that supports byte-ranges not only iPhone
+                  rangeDownload($navigation_dir);
+               }
+               else {
+                  header("Content-Length: ".filesize($navigation_dir));
+                  readfile($navigation_dir);
+               }
+            }
         } else {
-            readfile($navigation_dir);     
+            readfile($navigation_dir);
         }
     } else {
         set_404_error($root_dir, basename($navigation_dir));
@@ -130,7 +228,7 @@ switch ($options['bootstrap']['icons']) {
         $icons['home']   = "<i class=\"".$icons['prefix']." ".$icons['home']." fa-lg\"></i> ";
         // $icons['search'] = "          <i class=\"".$icons['prefix']." ".$icons['search']." form-control-feedback\"></i>" . PHP_EOL;
         $icons['folder'] = $icons['prefix'].' '. $icons['folder'].' ' . $options['bootstrap']['fontawesome_style'];
-        if ($options['general']['share_icons'] == true) { 
+        if ($options['general']['share_icons'] == true) {
             $icons_dropbox  = "<i class=\"".$icons['prefix']." fa-dropbox\"></i> ";
             $icons_email    = "<i class=\"".$icons['prefix']." fa-envelope\"></i> ";
             $icons_facebook = "<i class=\"".$icons['prefix']." fa-facebook\"></i> ";
@@ -269,16 +367,16 @@ if ($handle = opendir($navigation_dir))
                 if (in_array($item['lext'], $options["checksum_files"])) {
                     continue;
                 }
-                
+
                 // Look for checksum files
                 foreach ($options["checksum_files"] as $chksum_ext) {
                     // $item itself is copied over and over for each file so delete those additional attributes to prevent unwanted carry-over
                     if (array_key_exists($chksum_ext, $item)) {
                         unset($item[$chksum_ext]);
                     }
-            
+
                     $checksum_file = $navigation_dir . $file . '.' . $chksum_ext;
-                    // Found 
+                    // Found
                     if (file_exists($checksum_file)) {
                         // Read in
                         $checksum_content = file_get_contents($checksum_file, FILE_USE_INCLUDE_PATH);
@@ -294,7 +392,7 @@ if ($handle = opendir($navigation_dir))
 
             // Assign file icons
             $item['class'] = $icons['prefix'].' '.$icons['default'].' '. $options['bootstrap']['fontawesome_style'];
-            
+
             foreach ($filetype as $v) {
                 if (in_array($item['lext'], $v['extensions'])) {
                     $item['class'] = $icons['prefix'].' '.$v['icon'].' '. $options['bootstrap']['fontawesome_style'];
@@ -313,7 +411,7 @@ if ($handle = opendir($navigation_dir))
                 $item['mtime']      =   $stat['mtime'];
                 $item['iso_mtime']  =   gmdate("Y-m-d H:i:s", $item['mtime']);
             }
-            
+
             // Add files to the file list...
             if(is_dir($navigation_dir.$file)){
                 array_push($folder_list, $item);
@@ -449,7 +547,7 @@ if ($table_options['count']) {
 
 if(($folder_list) || ($file_list) ) {
 
-    if($folder_list):    
+    if($folder_list):
         foreach($folder_list as $item) :
 
             if ($options['bootstrap']['tablerow_folders'] != null) {
@@ -476,7 +574,7 @@ if(($folder_list) || ($file_list) ) {
             }
 
             $table_body .= "<a href=\"" . htmlentities(rawurlencode($item['bname']), ENT_QUOTES, 'utf-8') . "/\" $tr_links><strong>" . utf8ify($item['bname']) . "</strong></a></td>" . PHP_EOL;
-            
+
             if ($table_options['size']) {
                 $table_body .= "            <td";
                 if ($options['general']['enable_sort']) {
@@ -550,20 +648,20 @@ if(($folder_list) || ($file_list) ) {
                         } else {
                             $album = null;
                         }
-                        $virtual_attr .= ' data-url="https://www.flickr.com/'.htmlentities($virtual_file['user']).'/'.htmlentities($virtual_file['id']).$album.'"';  
-                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';  
+                        $virtual_attr .= ' data-url="https://www.flickr.com/'.htmlentities($virtual_file['user']).'/'.htmlentities($virtual_file['id']).$album.'"';
+                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';
                     } else if ($item['lext'] == 'soundcloud') {
                         $virtual_attr =  ' data-soundcloud="'.htmlentities($virtual_file['type']).'/'.htmlentities($virtual_file['id']).'"';
-                        $virtual_attr .= ' data-url="'.htmlentities($virtual_file['url']).'"';  
-                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';  
+                        $virtual_attr .= ' data-url="'.htmlentities($virtual_file['url']).'"';
+                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';
                     } else if ($item['lext'] == 'vimeo') {
                         $virtual_attr =  ' data-vimeo="'.htmlentities($virtual_file['id']).'"';
-                        $virtual_attr .= ' data-url="https://vimeo.com/'.htmlentities($virtual_file['id']).'"';  
-                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';  
+                        $virtual_attr .= ' data-url="https://vimeo.com/'.htmlentities($virtual_file['id']).'"';
+                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';
                     } else if ($item['lext'] == 'youtube') {
                         $virtual_attr =  ' data-youtube="'.htmlentities($virtual_file['id']).'"';
-                        $virtual_attr .= ' data-url="https://youtube.com/watch?v='.htmlentities($virtual_file['id']).'"';  
-                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';  
+                        $virtual_attr .= ' data-url="https://youtube.com/watch?v='.htmlentities($virtual_file['id']).'"';
+                        $virtual_attr .= ' data-name="'.htmlentities($virtual_file['name']).'"';
                     }
                 } else {
                     $virtual_attr = null;
@@ -584,11 +682,11 @@ if(($folder_list) || ($file_list) ) {
             }
 
             $table_body .= "          <tr$row_attr>" . PHP_EOL;
-            
+
             if ($table_options['count']) {
                 // $table_body .= "            <td class=\"text-muted text-xs-$right\" data-sort-value=\"$row_counter\">$visible_count</td>";
             }
-            
+
             $table_body .= "            <td";
             if ($options['general']['enable_sort']) {
                 $table_body .= " class=\"text-xs-$left\" data-sort-value=\"file-". htmlentities(utf8_encode($item['lbname']), ENT_QUOTES, 'utf-8') . "\"" ;
@@ -678,7 +776,7 @@ if(($folder_list) || ($file_list) ) {
                     }
                 }
             }
-            
+
             $table_body .= "</td>" . PHP_EOL;
 
             // Size
@@ -714,7 +812,7 @@ if(($folder_list) || ($file_list) ) {
         $table_body .= "            <td colspan=\"$colspan\" style=\"font-style:italic\">";
         if ($options['bootstrap']['icons']  !== null ) {
             $table_body .= "<".$icons['tag']." class=\"" . $item['class'] . "\">&nbsp;</".$icons['tag'].">";
-        } 
+        }
         $table_body .= _("empty folder")."</td>" . PHP_EOL;
         $table_body .= "          </tr>" . PHP_EOL;
 }
