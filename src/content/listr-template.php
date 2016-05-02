@@ -34,7 +34,7 @@
                     <li class="dropdown">
                         <a href="/content/Science/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Science<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/content/Science/Agriculture%20for%20Island/">Agriculture for Islands</a></li>
+                            <li><a href="/content/Science/Agriculture%20for%20Islands/">Agriculture for Islands</a></li>
                             <li class="divider"></li>
                             <li><a href="/content/Science/Earth%20and%20Space/">Earth and Space</a></li>
                             <li class="divider"></li>
@@ -70,7 +70,7 @@
                             <li class="divider"></li>
                             <li><a href="/content/Health%20and%20Safety/Boat%20Safety/">Boat Safety</a></li>
                             <li class="divider"></li>
-                            <li><a href="/content/Health%20and%20Safety/Health%20PDFs/">Health PDFs</a></li>
+                            <li><a href="/content/Health%20and%20Safety/Health%20PDFS/">Health PDFS</a></li>
                             <li class="divider"></li>
                             <li><a href="/content/Health%20and%20Safety/Natural%20Disaster%20Management/">Natural Disaster Management</a></li>
                             <li class="divider"></li>
