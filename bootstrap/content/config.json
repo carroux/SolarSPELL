@@ -6,8 +6,8 @@
     "local_assets": true,
     "concat_assets": false,
     "enable_sort": true,
-    "enable_viewer": true,
-    "enable_search": true,
+    "enable_viewer": false,
+    "enable_search": false,
     "enable_highlight": false,
     "auto_highlight": true,
     "autofocus_search": false,
@@ -17,7 +17,7 @@
     "hide_extension": false,
     "virtual_files": false,
     "virtual_maxsize": 256,
-    "custom_title": null,
+    "custom_title": "SPELL Content",
     "read_chunks": false,
     "enable_checksums": false,
     "truncate_checksums": 8,
@@ -62,7 +62,7 @@
     "hidden_files_link": "text-muted",
     "checksum_label": "label-default",
     "alert_404": "alert-warning",
-    "theme": "cerulean",
+    "theme": "default",
     "icons": "fa",
     "fontawesome_style": ""
   },
@@ -124,7 +124,7 @@
   "columns": {
     "count": true,
     "size": true,
-    "age": true
+    "age": false
   },
   "ignored_files": [
     ".bzr",
