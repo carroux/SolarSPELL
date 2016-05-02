@@ -6,7 +6,7 @@
     "local_assets": true,
     "concat_assets": false,
     "enable_sort": true,
-    "enable_viewer": false,
+    "enable_viewer": true,
     "enable_search": true,
     "enable_highlight": false,
     "auto_highlight": false,
