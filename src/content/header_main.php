@@ -1,30 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <!-- <link rel="icon" href="/img/favicon.ico"> -->
-
-  <title>Pacific Island Server</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="/css/bootstrap.css" rel="stylesheet">
-
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="/css/starter-template.css" rel="stylesheet">
-
-  <script src="/js/ie-emulation-modes-warning.js"></script>
-</head>
-
-<body>
+<div>
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -124,29 +98,4 @@
       </div>
     </div>
   </nav>
-  <div class="container">
-
-  <h1 >About Us</h1>
-  <p >SolarSPELL is a Solar Powered Educational Learning Library:
-    a digital library over an off-line WiFi hotspot, designed to simulate an online experience. Making use of open educational resources and ever-smaller and more efficient technology,
-    SPELL provides an all-in-one, self-powered plug-and-play kit, ready to be deployed with absolute minimal training or maintenance required for start-up and continued operation.</p>
-<br />
-
-<img src="/img/video_thumb.png">
-
-<h2 >Want to know more about SolarSPELL?</h2>
-
-<p>Contact us at: team@solarspell.org
-</p>
 </div>
-
-  <!-- Bootstrap core JavaScript
-    ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <script src="/js/ie10-viewport-bug-workaround.js"></script>
-</body>
-
-</html>
