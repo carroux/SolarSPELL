@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Run this script on the Raspberry Pi to update it to the latest version of the website
-cd ~/SolarSPELL/
+cd /home/pi/SolarSPELL/
 git pull
 cd /var/www/
 sudo rm -r html
-sudo cp -a ~/SolarSPELL/src ./html
+sudo cp -a /home/pi/SolarSPELL/src ./html
 sudo rm -r html/content/_public
 cd html/
 sudo ln -s ../keep/med ./med
