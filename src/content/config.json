@@ -62,7 +62,7 @@
     "hidden_files_link": "text-muted",
     "checksum_label": "label-default",
     "alert_404": "alert-warning",
-    "theme": "default",
+    "theme": "cerulean",
     "icons": "fa",
     "fontawesome_style": ""
   },
