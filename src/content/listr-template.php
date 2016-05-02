@@ -10,7 +10,7 @@
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/index.html">
-                    <img alt="Brand" href="/index.html" src="/img/SPELLWebsite-header_revised.png" style="max-height:40px">
+                    <img alt="Brand" href="/index.html" src="/img/SPELLWebsite-header_revised.png" style="max-height:35px">
                 </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
