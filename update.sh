@@ -10,6 +10,7 @@ sudo rm -r html/content/_public
 cd html/
 sudo ln -s ../keep/med ./med
 sudo ln -s ../keep/Wikipedia ./Wikipedia
+sudo ln -s ../keep/about_us_subtitled.mp4 ./about_us_subtitled.mp4
 cd content/
 sudo ln -s ../../keep/_public ./_public
 cd /var/www/
