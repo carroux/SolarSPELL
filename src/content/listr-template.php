@@ -9,7 +9,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/index.html" style="padding:5px 5px">
+                <a class="navbar-brand" href="/index.html" style="padding:5px 5px; margin-left:0px">
                     <img alt="Brand" href="/index.html" src="/img/SPELLWebsite-header_revised.png" style="max-height:40px">
                 </a>
             </div>
