@@ -16,6 +16,54 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Environment<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/content/Environment/Adapting%20to%20Climate%20Change/">Adapting to Climate Change</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Environment/Climate%20Change%20Info/">Climate Change Info</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Environment/Geography/">Geography</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Environment/Natural%20Disasters/">Natural Disasters</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Environment/Waste%20Facts/">Waste Facts</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Environment/Wildlife/">Wildlife</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Health and Safety<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/content/Health%20and%20Safety/Awareness/">Awareness</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Health%20and%20Safety/Boat%20Safety/">Boat Safety</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Health%20and%20Safety/Health%20PDFS/">Health PDFS</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Health%20and%20Safety/Natural%20Disaster%20Management/">Natural Disaster Management</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Health%20and%20Safety/Safety/">Safety</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language Arts<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/content/Language%20Arts/English%20Grammar/">English Grammar</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Language%20Arts/Story%20Books/">Story Books</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Language%20Arts/Teaching%20Resources/">Teaching Resources</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Local Topics<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/content/Local%20Topics/Micronesia/">Micronesia</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/content/Local%20Topics/Vanuatu/">Vanuatu</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Math<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/content/Math/Addition%20and%20Subtraction/">Addition and Subtraction</a></li>
@@ -43,54 +91,6 @@
                             <li><a href="/content/Science/Life%20Science/">Life Science</a></li>
                             <li class="divider"></li>
                             <li><a href="/content/Science/Physical%20Science/">Physical Science</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language Arts<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/content/Language%20Arts/English%20Grammar/">English Grammar</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Language%20Arts/Story%20Books/">Story Books</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Language%20Arts/Teaching%20Resources/">Teaching Resources</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Local Topics<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/content/Local%20Topics/Micronesia/">Micronesia</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Local%20Topics/Vanuatu/">Vanuatu</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Health and Safety<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/content/Health%20and%20Safety/Awareness/">Awareness</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Health%20and%20Safety/Boat%20Safety/">Boat Safety</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Health%20and%20Safety/Health%20PDFS/">Health PDFS</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Health%20and%20Safety/Natural%20Disaster%20Management/">Natural Disaster Management</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Health%20and%20Safety/Safety/">Safety</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Environment<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/content/Environment/Adapting%20to%20Climate%20Change/">Adapting to Climate Change</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Environment/Climate%20Change%20Info/">Climate Change Info</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Environment/Geography/">Geography</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Environment/Natural%20Disasters/">Natural Disasters</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Environment/Waste%20Facts/">Waste Facts</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/content/Environment/Wildlife/">Wildlife</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
